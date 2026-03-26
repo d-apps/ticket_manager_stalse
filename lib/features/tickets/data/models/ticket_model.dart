@@ -20,8 +20,8 @@ final class TicketModel extends TicketEntity {
       'createdAt': createdAt.toIso8601String(),
       'customerName': customerName,
       'message': message,
-      'status': status.title,
-      'priority': priority.title,
+      'status': status.name,
+      'priority': priority.name,
       'category': category,
     };
   }

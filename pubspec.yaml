@@ -36,9 +36,12 @@ dependencies:
   cupertino_icons: ^1.0.8
   dartz:
   hive_ce: ^2.19.3
+  path_provider:
   mocktail:
   flutter_bloc:
   bloc_test:
+  uuid:
+  get_it:
 
 dev_dependencies:
   flutter_test:

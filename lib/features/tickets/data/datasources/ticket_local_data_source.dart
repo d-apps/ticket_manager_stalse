@@ -6,10 +6,10 @@ import 'package:ticket_manager_stalse/features/tickets/domain/enums/ticket_statu
 import '../models/ticket_model.dart';
 
 class TicketLocalDataSource implements ITicketDataSource {
-  final IPersistenceService<Map> _persistence;
+  final IPersistenceService _persistence;
 
   TicketLocalDataSource({
-    required IPersistenceService<Map<dynamic, dynamic>> persistence
+    required IPersistenceService persistence
   }) : _persistence = persistence;
 
   @override
@@ -34,15 +34,18 @@ class TicketLocalDataSource implements ITicketDataSource {
   @override
   Future<void> seed() async {
     try {
+      final data = await _persistence.getAll();
+      if (data.isNotEmpty) return;
+
       final random = Random();
       final tickets = <TicketModel>[];
 
       for (int i = 0; i < 10; i++) {
         final ticket = TicketModel(
-          id: i.toString(),
+          id: "TKT-000$i",
           createdAt: DateTime.now().subtract(Duration(days: i)),
           customerName: 'Cliente $i',
-          message: 'Ticket mockado $i',
+          message: 'Estou com o problema no...',
           status: i % 2 == 0 ? TicketStatus.open : TicketStatus.closed,
           priority: TicketPriority.values[random.nextInt(3)],
           category: ['Financeiro', 'Dúvida Técnica', 'Reclamação'][random.nextInt(3)],

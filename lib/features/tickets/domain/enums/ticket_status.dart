@@ -1,9 +1,12 @@
 enum TicketStatus {
+  all,
   open,
   closed;
 
   String get title {
     switch (this) {
+      case all:
+        return "Todos";
       case open:
         return "Aberto";
       case closed:
@@ -13,6 +16,8 @@ enum TicketStatus {
 
   factory TicketStatus.fromString(String value){
     switch (value) {
+      case 'all':
+        return all;
       case 'open':
         return open;
       case 'closed':

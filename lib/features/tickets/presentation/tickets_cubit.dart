@@ -4,18 +4,26 @@ import 'package:ticket_manager_stalse/features/tickets/domain/enums/ticket_statu
 import 'package:ticket_manager_stalse/features/tickets/domain/usecases/add_ticket_usecase.dart';
 import 'package:ticket_manager_stalse/features/tickets/domain/usecases/get_tickets_usecase.dart';
 import 'package:ticket_manager_stalse/features/tickets/presentation/ticket_state.dart';
+import '../domain/usecases/update_ticket_usecase.dart';
 
 class TicketsCubit extends Cubit<TicketState> {
   final IGetTicketsUseCase _getTicketsUseCase;
   final IAddTicketUseCase _addTicketUseCase;
+  final IUpdateTicketUseCase _updateTicketUseCase;
 
   TicketsCubit({
-    required GetTicketsUseCase getTicketsUseCase,
-    required AddTicketUseCase addTicketUseCase })
+    required IGetTicketsUseCase getTicketsUseCase,
+    required IAddTicketUseCase addTicketUseCase,
+    required IUpdateTicketUseCase updateTicketUseCase
+  })
     : _getTicketsUseCase = getTicketsUseCase,
-      _addTicketUseCase = addTicketUseCase, super(TicketEmptyState());
+      _addTicketUseCase = addTicketUseCase,
+      _updateTicketUseCase = updateTicketUseCase,
+        super(TicketEmptyState());
 
   List<TicketEntity> _allTickets = [];
+  TicketStatus currentStatus = TicketStatus.all;
+  SortBy sortBy = SortBy.none;
 
   Future<void> getTickets() async {
     emit(TicketLoadingState());
@@ -44,6 +52,11 @@ class TicketsCubit extends Cubit<TicketState> {
   }
 
   void filterByStatus(TicketStatus status) {
+    if(status == TicketStatus.all){
+      clearFilters();
+      return;
+    }
+
     final filtered =
     _allTickets.where((t) => t.status == status).toList();
 
@@ -52,6 +65,20 @@ class TicketsCubit extends Cubit<TicketState> {
 
   void clearFilters() {
     emit(TicketLoadedState(_allTickets));
+  }
+
+  void sort(){
+    switch(sortBy){
+      case SortBy.none:
+        clearFilters();
+        break;
+      case SortBy.date:
+        sortByDate();
+        break;
+      case SortBy.priority:
+        sortByPriority();
+        break;
+    }
   }
 
   void sortByDate({bool descending = true}) {
@@ -74,4 +101,21 @@ class TicketsCubit extends Cubit<TicketState> {
     emit(TicketLoadedState(sorted));
   }
 
+}
+
+enum SortBy {
+  none,
+  date,
+  priority;
+
+  String get title {
+    switch (this) {
+      case none:
+        return "Nenhum";
+      case date:
+        return "Ordenar por data";
+      case priority:
+        return "Ordenar por prioridade";
+    }
+  }
 }

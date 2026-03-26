@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:hive_ce/hive.dart';
+import 'package:ticket_manager_stalse/core/dependencies/register_deps.dart';
+import 'package:ticket_manager_stalse/core/design/app_theme.dart';
+import 'package:ticket_manager_stalse/features/base/presentation/base_page.dart';
 import 'features/tickets/presentation/tickets_page.dart';
+import 'package:path_provider/path_provider.dart';
+
+Future<void> initHive() async {
+  final dir = await getApplicationDocumentsDirectory();
+  Hive.init(dir.path);
+}
 
 void main() async {
-  Hive.init(null);
+  WidgetsFlutterBinding.ensureInitialized();
+  await initHive();
+  await registerDeps();
   runApp(const MyApp());
 }
 
@@ -13,11 +24,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const TicketsPage(),
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.lightThemeData(),
+      darkTheme: AppTheme.darkThemeData(),
+      themeMode: ThemeMode.system,
+      home: const BasePage(),
     );
   }
 }

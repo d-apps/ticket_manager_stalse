@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 enum TicketPriority {
   low,
   medium,
@@ -6,11 +8,11 @@ enum TicketPriority {
   String get title {
     switch (this) {
       case low:
-        return "Baixo";
+        return "Baixa Prioridade";
       case medium:
-        return "Médio";
+        return "Média Prioridade";
       case high:
-        return "Alta";
+        return "Alta Prioridade";
     }
   }
 
@@ -26,4 +28,5 @@ enum TicketPriority {
         throw Exception('Invalid ticket priority: $value');
     }
   }
+
 }

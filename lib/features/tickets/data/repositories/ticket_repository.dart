@@ -8,7 +8,8 @@ import 'package:ticket_manager_stalse/features/tickets/domain/repositories/i_tic
 class TicketRepository implements ITicketRepository {
   final ITicketDataSource _dataSource;
 
-  TicketRepository({ required ITicketDataSource dataSource }) : _dataSource = dataSource;
+  TicketRepository({ required ITicketDataSource dataSource }) :
+        _dataSource = dataSource;
 
   @override
   Future<Either<Failure, List<TicketEntity>>> getAll() async {

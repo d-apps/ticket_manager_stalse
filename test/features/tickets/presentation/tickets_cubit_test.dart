@@ -9,17 +9,20 @@ import 'package:ticket_manager_stalse/features/tickets/domain/enums/ticket_prior
 import 'package:ticket_manager_stalse/features/tickets/domain/enums/ticket_status.dart';
 import 'package:ticket_manager_stalse/features/tickets/domain/usecases/add_ticket_usecase.dart';
 import 'package:ticket_manager_stalse/features/tickets/domain/usecases/get_tickets_usecase.dart';
+import 'package:ticket_manager_stalse/features/tickets/domain/usecases/update_ticket_usecase.dart';
 import 'package:ticket_manager_stalse/features/tickets/presentation/ticket_state.dart';
 import 'package:ticket_manager_stalse/features/tickets/presentation/tickets_cubit.dart';
 
-class MockGetTicketsUseCase extends Mock implements GetTicketsUseCase {}
-class MockAddTicketUseCase extends Mock implements AddTicketUseCase {}
+class MockGetTicketsUseCase extends Mock implements IGetTicketsUseCase {}
+class MockAddTicketUseCase extends Mock implements IAddTicketUseCase {}
+class MockUpdateTicketUseCase extends Mock implements IUpdateTicketUseCase {}
 class FakeTicketEntity extends Fake implements TicketEntity {}
 
 void main() {
   late TicketsCubit sut;
   late MockGetTicketsUseCase mockGetTicketsUseCase;
   late MockAddTicketUseCase mockAddTicketUseCase;
+  late MockUpdateTicketUseCase mockUpdateTicketUseCase;
 
   setUpAll(() {
     registerFallbackValue(FakeTicketEntity());
@@ -28,9 +31,11 @@ void main() {
   setUp(() {
     mockGetTicketsUseCase = MockGetTicketsUseCase();
     mockAddTicketUseCase = MockAddTicketUseCase();
+    mockUpdateTicketUseCase = MockUpdateTicketUseCase();
     sut = TicketsCubit(
       getTicketsUseCase: mockGetTicketsUseCase,
       addTicketUseCase: mockAddTicketUseCase,
+      updateTicketUseCase: mockUpdateTicketUseCase,
     );
   });
 
