@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticket_manager_stalse/core/extensions/date_formatter.dart';
+import 'package:ticket_manager_stalse/features/ticket_detail/presentation/ticket_detail.dart';
 import 'package:ticket_manager_stalse/features/tickets/domain/entities/ticket_entity.dart';
 import 'package:ticket_manager_stalse/features/tickets/presentation/widgets/priority_widget.dart';
 
@@ -59,7 +60,7 @@ class TicketTile extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => TicketUpdatePage(ticket: ticket),
+                builder: (context) => TicketDetail(ticket: ticket),
 
             ));
           },
