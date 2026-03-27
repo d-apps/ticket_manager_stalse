@@ -20,7 +20,7 @@ class TicketTile extends StatelessWidget {
         child: ListTile(
           leading: CircleAvatar(
             backgroundColor: Colors.grey[200],
-            child: Icon(Icons.person, color: Colors.grey[800],),
+            child: Icon(Icons.person, color: Theme.of(context).primaryColor),
           ),
           title: Row(
             children: [

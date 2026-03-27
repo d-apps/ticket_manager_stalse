@@ -27,15 +27,11 @@ class _TicketsPageState extends State<TicketsPage> {
 
         return Scaffold(
           appBar: AppBar(
-            title: Text("Tickets", style: TextStyle(color: Theme
-                .of(context)
-                .primaryColor),),
+            title: Text("Tickets"),
             centerTitle: false,
             actions: [
               PopupMenuButton<TicketStatus>(
-                icon: Icon(Icons.filter_list, color: Theme
-                    .of(context)
-                    .primaryColor,),
+                icon: Icon(Icons.filter_list),
                 initialValue: cubit.currentStatus,
                 onSelected: (newStatus) {
                   setState(() {
@@ -52,9 +48,7 @@ class _TicketsPageState extends State<TicketsPage> {
                         )).toList(),
               ),
               PopupMenuButton<SortBy>(
-                icon: Icon(Icons.sort, color: Theme
-                    .of(context)
-                    .primaryColor),
+                icon: Icon(Icons.sort),
                 initialValue: cubit.sortBy,
                 onSelected: (value) {
                   setState(() {

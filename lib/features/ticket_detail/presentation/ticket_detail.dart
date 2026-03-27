@@ -64,18 +64,22 @@ class TicketDetail extends StatelessWidget {
             Text(ticket.message),
             const SizedBox(height: 10),
             Text("Status: ${ticket.status.title}"),
-
+            const SizedBox(height: 10),
             Align(
               alignment: Alignment.center,
-              child: ElevatedButton(
-                  onPressed: (){
-                    context.read<TicketsCubit>().updateTicket(
-                        ticket.copyWith(status: TicketStatus.closed
-                        )
-                    );
-                    Navigator.pop(context);
-                  },
-                  child: Text("Marcar como Resolvido")
+              child: SizedBox(
+                height: 45,
+                width: double.infinity,
+                child: ElevatedButton(
+                    onPressed: (){
+                      context.read<TicketsCubit>().updateTicket(
+                          ticket.copyWith(status: TicketStatus.closed
+                          )
+                      );
+                      Navigator.pop(context);
+                    },
+                    child: Text("Marcar como Resolvido")
+                ),
               ),
             )
           ],

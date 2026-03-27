@@ -85,23 +85,27 @@ class _TicketAddOrUpdateFormState extends State<TicketAddOrUpdateForm>
             const SizedBox(height: 10),
             Align(
               alignment: Alignment.center,
-              child: ElevatedButton(
-                  onPressed: (){
-                    if(formKey.currentState!.validate()){
-                      final int id = Random().nextInt(1000);
-                      final ticket = TicketEntity(
-                        id: isEditing ? widget.ticket!.id : "TKT-$id",
-                        createdAt: isEditing ? widget.ticket!.createdAt : DateTime.now(),
-                        customerName: customerNameController.text,
-                        message: messageController.text,
-                        status: isEditing ? widget.ticket!.status : TicketStatus.open,
-                        priority: priority!,
-                        category: categoryController.text,
-                      );
-                      widget.onSave(ticket);
-                    }
-                  },
-                  child: Text(isEditing ? "ATUALIZAR" : "SALVAR")
+              child: SizedBox(
+                height: 45,
+                width: double.infinity,
+                child: ElevatedButton(
+                    onPressed: (){
+                      if(formKey.currentState!.validate()){
+                        final int id = Random().nextInt(1000);
+                        final ticket = TicketEntity(
+                          id: isEditing ? widget.ticket!.id : "TKT-$id",
+                          createdAt: isEditing ? widget.ticket!.createdAt : DateTime.now(),
+                          customerName: customerNameController.text,
+                          message: messageController.text,
+                          status: isEditing ? widget.ticket!.status : TicketStatus.open,
+                          priority: priority!,
+                          category: categoryController.text,
+                        );
+                        widget.onSave(ticket);
+                      }
+                    },
+                    child: Text(isEditing ? "ATUALIZAR" : "SALVAR")
+                ),
               ),
             )
           ],
