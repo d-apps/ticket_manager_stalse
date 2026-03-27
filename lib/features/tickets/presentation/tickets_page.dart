@@ -21,87 +21,81 @@ class _TicketsPageState extends State<TicketsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => GetIt.I<TicketsCubit>()..getTickets(),
-      child: Builder(
-        builder: (context) {
-          final cubit = context.read<TicketsCubit>();
+    return Builder(
+      builder: (context) {
+        final cubit = context.read<TicketsCubit>();
 
-          return Scaffold(
-            appBar: AppBar(
-              title: Text("Tickets", style: TextStyle(color: Theme
-                  .of(context)
-                  .primaryColor),),
-              centerTitle: false,
-              actions: [
-                PopupMenuButton<TicketStatus>(
-                  icon: Icon(Icons.filter_list, color: Theme
-                      .of(context)
-                      .primaryColor,),
-                  initialValue: cubit.currentStatus,
-                  onSelected: (newStatus) {
-                    setState(() {
-                      cubit.currentStatus = newStatus;
-                    });
-                    cubit.filterByStatus(newStatus);
-                  },
-                  itemBuilder: (context) =>
-                      TicketStatus.values
+        return Scaffold(
+          appBar: AppBar(
+            title: Text("Tickets", style: TextStyle(color: Theme
+                .of(context)
+                .primaryColor),),
+            centerTitle: false,
+            actions: [
+              PopupMenuButton<TicketStatus>(
+                icon: Icon(Icons.filter_list, color: Theme
+                    .of(context)
+                    .primaryColor,),
+                initialValue: cubit.currentStatus,
+                onSelected: (newStatus) {
+                  setState(() {
+                    cubit.currentStatus = newStatus;
+                  });
+                  cubit.filterByStatus(newStatus);
+                },
+                itemBuilder: (context) =>
+                    TicketStatus.values
+                        .map((item) =>
+                        PopupMenuItem<TicketStatus>(
+                          value: item,
+                          child: Text(item.title),
+                        )).toList(),
+              ),
+              PopupMenuButton<SortBy>(
+                icon: Icon(Icons.sort, color: Theme
+                    .of(context)
+                    .primaryColor),
+                initialValue: cubit.sortBy,
+                onSelected: (value) {
+                  setState(() {
+                    cubit.sortBy = value;
+                  });
+                  cubit.sort();
+                },
+                itemBuilder: (context) => SortBy.values
                           .map((item) =>
-                          PopupMenuItem<TicketStatus>(
+                          PopupMenuItem<SortBy>(
                             value: item,
                             child: Text(item.title),
                           )).toList(),
-                ),
-                PopupMenuButton<SortBy>(
-                  icon: Icon(Icons.sort, color: Theme
-                      .of(context)
-                      .primaryColor),
-                  initialValue: cubit.sortBy,
-                  onSelected: (value) {
-                    setState(() {
-                      cubit.sortBy = value;
-                    });
-                    cubit.sort();
-                  },
-                  itemBuilder: (context) => SortBy.values
-                            .map((item) =>
-                            PopupMenuItem<SortBy>(
-                              value: item,
-                              child: Text(item.title),
-                            )).toList(),
-                )
-              ],
-            ),
-            body: BlocBuilder<TicketsCubit, TicketState>(
-              builder: (context, state) {
-                if (state is TicketLoadingState) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                if (state is TicketLoadedState) {
-                  return makeList(state.tickets);
-                }
-                return const Center(child: Text("Nenhum ticket encontrado"));
-              },
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => BlocProvider.value(
-                        value: context.read<TicketsCubit>(),
-                        child: TicketAddPage()
-                    ))
-                );
-              },
-              backgroundColor: Theme
-                  .of(context)
-                  .primaryColor,
-              child: const Icon(Icons.add, color: Colors.white),
-            ),
-          );
-        },
-      ),
+              )
+            ],
+          ),
+          body: BlocBuilder<TicketsCubit, TicketState>(
+            builder: (context, state) {
+              if (state is TicketLoadingState) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (state is TicketLoadedState) {
+                return makeList(state.tickets);
+              }
+              return const Center(child: Text("Nenhum ticket encontrado"));
+            },
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => TicketAddPage())
+              );
+            },
+            backgroundColor: Theme
+                .of(context)
+                .primaryColor,
+            child: const Icon(Icons.add, color: Colors.white),
+          ),
+        );
+      },
     );
   }
 

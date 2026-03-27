@@ -4,23 +4,24 @@ import 'package:ticket_manager_stalse/features/ticket_add/presentation/widgets/t
 import 'package:ticket_manager_stalse/features/tickets/domain/entities/ticket_entity.dart';
 import 'package:ticket_manager_stalse/features/tickets/presentation/tickets_cubit.dart';
 
-class TicketAddPage extends StatelessWidget {
-  const TicketAddPage({ super.key});
+class TicketUpdatePage extends StatelessWidget {
+  final TicketEntity ticket;
+  const TicketUpdatePage({ required this.ticket, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Novo Ticket"),
+        title: Text("Editar Ticket"),
         centerTitle: false,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: TicketAddOrUpdateForm(
-            ticket: null,
+            ticket: ticket,
             onSave: (TicketEntity ticket){
-              context.read<TicketsCubit>().addTicket(ticket);
-              Navigator.pop(context);
+          context.read<TicketsCubit>().updateTicket(ticket);
+          Navigator.pop(context);
         }),
       ),
     );

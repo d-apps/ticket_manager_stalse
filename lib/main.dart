@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:ticket_manager_stalse/core/dependencies/register_deps.dart';
 import 'package:ticket_manager_stalse/core/design/app_theme.dart';
 import 'package:ticket_manager_stalse/features/base/presentation/base_page.dart';
+import 'package:ticket_manager_stalse/features/tickets/presentation/tickets_cubit.dart';
 import 'features/tickets/presentation/tickets_page.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -23,12 +26,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightThemeData(),
-      darkTheme: AppTheme.darkThemeData(),
-      themeMode: ThemeMode.system,
-      home: const BasePage(),
+    return BlocProvider(
+      create: (context) => GetIt.instance.get<TicketsCubit>()..getTickets(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.lightThemeData(),
+        darkTheme: AppTheme.darkThemeData(),
+        themeMode: ThemeMode.system,
+        home: const BasePage(),
+      ),
     );
   }
 }

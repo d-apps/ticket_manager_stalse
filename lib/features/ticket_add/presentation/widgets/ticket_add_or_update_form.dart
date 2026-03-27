@@ -10,7 +10,7 @@ import '../../../tickets/domain/enums/ticket_priority.dart';
 class TicketAddOrUpdateForm extends StatefulWidget {
   final TicketEntity? ticket;
   final Function(TicketEntity) onSave;
-  const TicketAddOrUpdateForm({this.ticket, required this.onSave, super.key});
+  const TicketAddOrUpdateForm({ required this.ticket, required this.onSave, super.key});
 
   @override
   State<TicketAddOrUpdateForm> createState() => _TicketAddOrUpdateFormState();
@@ -88,8 +88,9 @@ class _TicketAddOrUpdateFormState extends State<TicketAddOrUpdateForm>
               child: ElevatedButton(
                   onPressed: (){
                     if(formKey.currentState!.validate()){
+                      final int id = Random().nextInt(1000);
                       final ticket = TicketEntity(
-                        id: isEditing ? widget.ticket!.id : "TKT-${Random(0000).nextInt(1000)}",
+                        id: isEditing ? widget.ticket!.id : "TKT-$id",
                         createdAt: isEditing ? widget.ticket!.createdAt : DateTime.now(),
                         customerName: customerNameController.text,
                         message: messageController.text,
