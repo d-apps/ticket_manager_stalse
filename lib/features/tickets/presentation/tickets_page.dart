@@ -79,7 +79,7 @@ class TicketsPage extends StatelessWidget {
   }
 
   Widget makeList(List<TicketEntity> tickets) => ListView.separated(
-    separatorBuilder: (_, __) => Divider(color: Colors.transparent, height: 8),
+    separatorBuilder: (_, _) => Divider(color: Colors.transparent, height: 8),
     itemCount: tickets.length,
     itemBuilder: (context, index){
       return TicketTile(tickets[index]);

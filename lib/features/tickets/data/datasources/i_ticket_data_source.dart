@@ -1,4 +1,3 @@
-import '../../domain/entities/ticket_entity.dart';
 import '../models/ticket_model.dart';
 
 abstract class ITicketDataSource {

@@ -6,7 +6,6 @@ import 'package:ticket_manager_stalse/core/dependencies/register_deps.dart';
 import 'package:ticket_manager_stalse/core/design/app_theme.dart';
 import 'package:ticket_manager_stalse/features/base/presentation/base_page.dart';
 import 'package:ticket_manager_stalse/features/tickets/presentation/tickets_cubit.dart';
-import 'features/tickets/presentation/tickets_page.dart';
 import 'package:path_provider/path_provider.dart';
 
 Future<void> initHive() async {
