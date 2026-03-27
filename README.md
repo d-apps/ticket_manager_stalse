@@ -1,6 +1,7 @@
 # Gestão de Tickets - Stalse
 
-Um aplicativo Flutter para gerenciamento de tickets, desenvolvido com as melhores práticas de engenharia de software.
+Um aplicativo Flutter para gerenciamento de tickets, desenvolvido com as melhores práticas de 
+engenharia de software.
 
 ## 🚀 Tecnologias e Arquitetura
 
@@ -43,7 +44,6 @@ Siga os passos abaixo para configurar o ambiente e executar o projeto:
     ```bash
     flutter pub get
     ```
-
 ### Testes
 
 Para rodar os testes:
