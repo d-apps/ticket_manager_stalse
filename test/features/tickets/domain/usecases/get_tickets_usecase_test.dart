@@ -22,7 +22,7 @@ void main() {
   final tTickets = [
     TicketEntity(
       id: '1',
-      createdAt: DateTime.now(),
+      createdAt: DateTime(2023, 1, 1),
       customerName: 'Customer 1',
       message: 'Message 1',
       status: TicketStatus.open,
@@ -41,7 +41,7 @@ void main() {
 
     // assert
     expect(result, Right(tTickets));
-    verify(() => mockRepository.getAll());
+    verify(() => mockRepository.getAll()).called(1);
     verifyNoMoreInteractions(mockRepository);
   });
 
@@ -56,7 +56,7 @@ void main() {
 
     // assert
     expect(result, Left(failure));
-    verify(() => mockRepository.getAll());
+    verify(() => mockRepository.getAll()).called(1);
     verifyNoMoreInteractions(mockRepository);
   });
 }

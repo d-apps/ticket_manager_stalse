@@ -3,19 +3,19 @@ import 'package:ticket_manager_stalse/core/error/failure.dart';
 import 'package:ticket_manager_stalse/features/tickets/domain/entities/ticket_entity.dart';
 import '../repositories/i_ticket_repository.dart';
 
-abstract class IAddTicketUseCase {
+abstract class IAddOrUpdateTicketUseCase {
   Future<Either<Failure, void>> call(TicketEntity ticket);
 }
 
-class AddTicketUseCase implements IAddTicketUseCase {
+class AddOrUpdateTicketUseCase implements IAddOrUpdateTicketUseCase {
   final ITicketRepository _repository;
 
-  AddTicketUseCase({ required ITicketRepository repository })
+  AddOrUpdateTicketUseCase({ required ITicketRepository repository })
       : _repository = repository;
 
   @override
   Future<Either<Failure, void>> call(TicketEntity ticket) async {
-    return await _repository.add(ticket);
+    return await _repository.addOrUpdate(ticket);
   }
 
 }
