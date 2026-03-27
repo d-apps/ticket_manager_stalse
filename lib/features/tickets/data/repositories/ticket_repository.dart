@@ -22,7 +22,7 @@ class TicketRepository implements ITicketRepository {
   }
 
   @override
-  Future<Either<Failure, void>> add(TicketEntity ticket) async {
+  Future<Either<Failure, void>> addOrUpdate(TicketEntity ticket) async {
     try {
       await _dataSource.add(ticket.toModel());
       return Right(null);

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:ticket_manager_stalse/core/mixins/validator_mixin.dart';
 import 'package:ticket_manager_stalse/features/tickets/domain/entities/ticket_entity.dart';
 import 'package:ticket_manager_stalse/features/tickets/domain/enums/ticket_status.dart';
-import 'package:uuid/uuid.dart';
 import '../../../tickets/domain/enums/ticket_priority.dart';
 
 class TicketAddOrUpdateForm extends StatefulWidget {

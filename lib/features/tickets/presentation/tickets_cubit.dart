@@ -1,24 +1,20 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticket_manager_stalse/features/tickets/domain/entities/ticket_entity.dart';
 import 'package:ticket_manager_stalse/features/tickets/domain/enums/ticket_status.dart';
-import 'package:ticket_manager_stalse/features/tickets/domain/usecases/add_ticket_usecase.dart';
+import 'package:ticket_manager_stalse/features/tickets/domain/usecases/add_or_update_ticket_usecase.dart';
 import 'package:ticket_manager_stalse/features/tickets/domain/usecases/get_tickets_usecase.dart';
 import 'package:ticket_manager_stalse/features/tickets/presentation/ticket_state.dart';
-import '../domain/usecases/update_ticket_usecase.dart';
 
 class TicketsCubit extends Cubit<TicketState> {
   final IGetTicketsUseCase _getTicketsUseCase;
-  final IAddTicketUseCase _addTicketUseCase;
-  final IUpdateTicketUseCase _updateTicketUseCase;
+  final IAddOrUpdateTicketUseCase _addOrUpdateTicketUseCase;
 
   TicketsCubit({
     required IGetTicketsUseCase getTicketsUseCase,
-    required IAddTicketUseCase addTicketUseCase,
-    required IUpdateTicketUseCase updateTicketUseCase
+    required IAddOrUpdateTicketUseCase addOrUpdateTicketUseCase,
   })
     : _getTicketsUseCase = getTicketsUseCase,
-      _addTicketUseCase = addTicketUseCase,
-      _updateTicketUseCase = updateTicketUseCase,
+      _addOrUpdateTicketUseCase = addOrUpdateTicketUseCase,
         super(TicketEmptyState());
 
   List<TicketEntity> _allTickets = [];
@@ -36,16 +32,14 @@ class TicketsCubit extends Cubit<TicketState> {
             if (tickets.isEmpty) {
               emit(TicketEmptyState());
             } else {
-              emit(TicketLoadedState(tickets));
-              sort();
+              _applyFiltersAndSort();
             }
       },
     );
   }
 
   Future<void> addTicket(TicketEntity ticket) async {
-    emit(TicketLoadingState());
-    final result = await _addTicketUseCase(ticket);
+    final result = await _addOrUpdateTicketUseCase(ticket);
     result.fold(
           (failure) => emit(TicketErrorState(failure.message)),
           (_) => getTickets(),
@@ -53,8 +47,7 @@ class TicketsCubit extends Cubit<TicketState> {
   }
 
   Future<void> updateTicket(TicketEntity ticket) async {
-    emit(TicketLoadingState());
-    final result = await _updateTicketUseCase(ticket);
+    final result = await _addOrUpdateTicketUseCase(ticket);
     result.fold(
           (failure) => emit(TicketErrorState(failure.message)),
           (_) => getTickets(),
@@ -62,53 +55,36 @@ class TicketsCubit extends Cubit<TicketState> {
   }
 
   void filterByStatus(TicketStatus status) {
-    if(status == TicketStatus.all){
-      clearFilters();
-      return;
+    currentStatus = status;
+    _applyFiltersAndSort();
+  }
+
+  void changeSort(SortBy sort) {
+    sortBy = sort;
+    _applyFiltersAndSort();
+  }
+
+  void _applyFiltersAndSort() {
+    List<TicketEntity> result = [..._allTickets];
+
+    // filter
+    if (currentStatus != TicketStatus.all) {
+      result = result.where((t) => t.status == currentStatus).toList();
     }
 
-    final filtered =
-    _allTickets.where((t) => t.status == status).toList();
-
-    emit(TicketLoadedState(filtered));
-  }
-
-  void clearFilters() {
-    emit(TicketLoadedState(_allTickets));
-  }
-
-  void sort(){
-    switch(sortBy){
-      case SortBy.none:
-        clearFilters();
-        break;
+    // order
+    switch (sortBy) {
       case SortBy.date:
-        sortByDate();
+        result.sort((a, b) => b.createdAt.compareTo(a.createdAt));
         break;
       case SortBy.priority:
-        sortByPriority();
+        result.sort((a, b) => b.priority.index.compareTo(a.priority.index));
+        break;
+      case SortBy.none:
         break;
     }
-  }
 
-  void sortByDate({bool descending = true}) {
-    final sorted = [..._allTickets];
-
-    sorted.sort((a, b) => descending
-        ? b.createdAt.compareTo(a.createdAt)
-        : a.createdAt.compareTo(b.createdAt));
-
-    emit(TicketLoadedState(sorted));
-  }
-
-  void sortByPriority({bool descending = true}) {
-    final sorted = [..._allTickets];
-
-    sorted.sort((a, b) => descending
-        ? b.priority.index.compareTo(a.priority.index)
-        : a.priority.index.compareTo(b.priority.index));
-
-    emit(TicketLoadedState(sorted));
+    emit(TicketLoadedState(result));
   }
 
 }

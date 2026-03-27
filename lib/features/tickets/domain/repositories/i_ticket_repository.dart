@@ -5,5 +5,5 @@ import '../../../../core/error/failure.dart';
 
 abstract class ITicketRepository {
   Future<Either<Failure, List<TicketEntity>>> getAll();
-  Future<Either<Failure, void>> add(TicketEntity ticket);
+  Future<Either<Failure, void>> addOrUpdate(TicketEntity ticket);
 }
