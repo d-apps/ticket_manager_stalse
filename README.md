@@ -1,7 +1,10 @@
 # Gestão de Tickets - Stalse
 
-Um aplicativo Flutter para gerenciamento de tickets, desenvolvido com as melhores práticas de 
+Um aplicativo Flutter para gerenciamento de tickets, desenvolvido com as melhores práticas de
 engenharia de software.
+
+<img src="https://raw.githubusercontent.com/d-apps/ticket_manager_stalse/refs/heads/main/screenshots/1.png" />
+<img src="https://raw.githubusercontent.com/d-apps/ticket_manager_stalse/refs/heads/main/screenshots/2.png"/>
 
 ## 🚀 Tecnologias e Arquitetura
 
@@ -12,10 +15,10 @@ Este projeto foi construído utilizando as seguintes tecnologias e padrões:
 - **Arquitetura:** Clean Architecture (separação clara entre Camada de Dados, Domínio e Apresentação)
 - **Banco de Dados Local:** [Hive](https://pub.dev/packages/hive_ce), com persistência de dados em formato JSON.
 
-A escolha da arquitetura foi pensando na organização do código, tornando o app fácil de 
+A escolha da arquitetura foi pensando na organização do código, tornando o app fácil de
 localizar suas funcionalidades (UseCases) e facilitando a manutenção e escalabilidade. A gestão de estado Cubit por ser
-mais prático para entender os estados da tela e a implementação de lógicas como filtros e ordenacão. O Hive 
-foi escolhido para armazenar os tickets por ser uma biblioteca poderosa para 
+mais prático para entender os estados da tela e a implementação de lógicas como filtros e ordenacão. O Hive
+foi escolhido para armazenar os tickets por ser uma biblioteca poderosa para
 guardar dados localmente de forma simples e prática.
 
 ## 🛠️ Como Compilar e Rodar o App
@@ -70,6 +73,6 @@ flutter build apk
 
 - `lib/core`: Componentes compartilhados, utilitários e extensões.
 - `lib/features`: Cada funcionalidade do app contendo:
-  - `data`: Implementações de repositórios, data sources e models (conversão JSON).
-  - `domain`: Entidades de negócio e casos de uso (Usecases).
-  - `presentation`: UI (Widgets, Pages) e a lógica de estado (Cubits).
+    - `data`: Implementações de repositórios, data sources e models (conversão JSON).
+    - `domain`: Entidades de negócio e casos de uso (Usecases).
+    - `presentation`: UI (Widgets, Pages) e a lógica de estado (Cubits).
