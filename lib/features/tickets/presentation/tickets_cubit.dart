@@ -23,7 +23,7 @@ class TicketsCubit extends Cubit<TicketState> {
 
   List<TicketEntity> _allTickets = [];
   TicketStatus currentStatus = TicketStatus.all;
-  SortBy sortBy = SortBy.none;
+  SortBy sortBy = SortBy.date;
 
   Future<void> getTickets() async {
     emit(TicketLoadingState());
@@ -37,6 +37,7 @@ class TicketsCubit extends Cubit<TicketState> {
               emit(TicketEmptyState());
             } else {
               emit(TicketLoadedState(tickets));
+              sort();
             }
       },
     );
@@ -45,6 +46,15 @@ class TicketsCubit extends Cubit<TicketState> {
   Future<void> addTicket(TicketEntity ticket) async {
     emit(TicketLoadingState());
     final result = await _addTicketUseCase(ticket);
+    result.fold(
+          (failure) => emit(TicketErrorState(failure.message)),
+          (_) => getTickets(),
+    );
+  }
+
+  Future<void> updateTicket(TicketEntity ticket) async {
+    emit(TicketLoadingState());
+    final result = await _updateTicketUseCase(ticket);
     result.fold(
           (failure) => emit(TicketErrorState(failure.message)),
           (_) => getTickets(),

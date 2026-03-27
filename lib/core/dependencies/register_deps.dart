@@ -37,5 +37,4 @@ Future<void> registerDeps() async {
    addTicketUseCase: getIt.get(),
    updateTicketUseCase: getIt.get(),
   ));
-
 }

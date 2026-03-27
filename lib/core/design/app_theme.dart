@@ -8,6 +8,7 @@ abstract class AppTheme {
       secondary: Color(0xff536070),
       tertiary: Color(0xffD97706),
     ),
+
   );
 
   static ThemeData darkThemeData() => ThemeData(

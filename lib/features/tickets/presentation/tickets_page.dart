@@ -8,6 +8,8 @@ import 'package:ticket_manager_stalse/features/tickets/presentation/ticket_state
 import 'package:ticket_manager_stalse/features/tickets/presentation/tickets_cubit.dart';
 import 'package:ticket_manager_stalse/features/tickets/presentation/widgets/ticket_tile.dart';
 
+import '../../ticket_add/presentation/ticket_add_page.dart';
+
 class TicketsPage extends StatefulWidget {
   const TicketsPage({super.key});
 
@@ -83,7 +85,15 @@ class _TicketsPageState extends State<TicketsPage> {
               },
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => BlocProvider.value(
+                        value: context.read<TicketsCubit>(),
+                        child: TicketAddPage()
+                    ))
+                );
+              },
               backgroundColor: Theme
                   .of(context)
                   .primaryColor,
