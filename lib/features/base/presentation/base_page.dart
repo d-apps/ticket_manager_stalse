@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:ticket_manager_stalse/features/dashboard/presentation/dashboard_page.dart';
 import 'package:ticket_manager_stalse/features/tickets/presentation/tickets_cubit.dart';
 
 import '../../tickets/presentation/tickets_page.dart';
@@ -23,7 +24,7 @@ class _BasePageState extends State<BasePage> {
           index: index,
           children: [
             TicketsPage(),
-            Container(),
+            DashboardPage(),
           ],
         ),
       ),
