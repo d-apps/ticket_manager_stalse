@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ticket_manager_stalse/features/dashboard/presentation/dashboard_page.dart';
-import '../../tickets/presentation/tickets_page.dart';
+
+import '../../ticket/tickets/presentation/tickets_page.dart';
 
 class BasePage extends StatefulWidget {
   const BasePage({super.key});
@@ -20,8 +21,8 @@ class _BasePageState extends State<BasePage> {
         child: IndexedStack(
           index: index,
           children: [
-            TicketsPage(),
-            DashboardPage(),
+            const TicketsPage(),
+            const DashboardPage(),
           ],
         ),
       ),

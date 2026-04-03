@@ -1,5 +1,5 @@
-import '../../features/tickets/data/models/ticket_model.dart';
-import '../../features/tickets/domain/entities/ticket_entity.dart';
+import '../../features/ticket/tickets/data/models/ticket_model.dart';
+import '../../features/ticket/tickets/domain/entities/ticket_entity.dart';
 
 extension TicketEntityMapper on TicketEntity {
   TicketModel toModel() {

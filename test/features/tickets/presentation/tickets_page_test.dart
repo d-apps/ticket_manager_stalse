@@ -1,73 +1,78 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:ticket_manager_stalse/features/tickets/domain/entities/ticket_entity.dart';
-import 'package:ticket_manager_stalse/features/tickets/domain/enums/ticket_priority.dart';
-import 'package:ticket_manager_stalse/features/tickets/domain/enums/ticket_status.dart';
-import 'package:ticket_manager_stalse/features/tickets/presentation/ticket_state.dart';
-import 'package:ticket_manager_stalse/features/tickets/presentation/tickets_cubit.dart';
-import 'package:ticket_manager_stalse/features/tickets/presentation/tickets_page.dart';
-import 'package:ticket_manager_stalse/features/tickets/presentation/widgets/ticket_tile.dart';
+import 'package:ticket_manager_stalse/features/ticket/tickets/domain/entities/ticket_entity.dart';
+import 'package:ticket_manager_stalse/features/ticket/tickets/domain/enums/ticket_priority.dart';
+import 'package:ticket_manager_stalse/features/ticket/tickets/domain/enums/ticket_status.dart';
+import 'package:ticket_manager_stalse/features/ticket/tickets/presentation/ticket_state.dart';
+import 'package:ticket_manager_stalse/features/ticket/tickets/presentation/tickets_cubit.dart';
+import 'package:ticket_manager_stalse/features/ticket/tickets/presentation/tickets_page.dart';
 
 class MockTicketsCubit extends MockCubit<TicketState> implements TicketsCubit {}
 
 void main() {
   late MockTicketsCubit mockTicketsCubit;
 
-  setUp(() {
-    mockTicketsCubit = MockTicketsCubit();
-    // Stub the getters used in the AppBar
-    when(() => mockTicketsCubit.currentStatus).thenReturn(TicketStatus.all);
-    when(() => mockTicketsCubit.sortBy).thenReturn(SortBy.none);
+  setUpAll(() {
+    registerFallbackValue(TicketStatus.all);
+    registerFallbackValue(SortBy.date);
   });
 
-  Widget makeTestableWidget() {
+  setUp(() {
+    mockTicketsCubit = MockTicketsCubit();
+    GetIt.I.registerSingleton<TicketsCubit>(mockTicketsCubit);
+
+    // Configura comportamentos padrão para os getters e métodos usados no build
+    when(() => mockTicketsCubit.currentStatus).thenReturn(TicketStatus.all);
+    when(() => mockTicketsCubit.sortBy).thenReturn(SortBy.date);
+    when(() => mockTicketsCubit.getTickets()).thenAnswer((_) async {});
+  });
+
+  tearDown(() {
+    GetIt.I.reset();
+  });
+
+  Widget createWidgetUnderTest() {
     return MaterialApp(
-      home: BlocProvider<TicketsCubit>.value(
-        value: mockTicketsCubit,
-        child: const TicketsPage(),
-      ),
+      home: const TicketsPage(),
     );
   }
 
-  final tTickets = [
-    TicketEntity(
-      id: '1',
-      createdAt: DateTime(2023, 1, 1),
-      customerName: 'Customer 1',
-      message: 'Message 1',
-      status: TicketStatus.open,
-      priority: TicketPriority.low,
-      category: 'Category 1',
-    ),
-  ];
-
-  testWidgets('should display CircularProgressIndicator when state is TicketLoadingState', (tester) async {
+  testWidgets('deve exibir o indicador de carregamento quando o estado for TicketLoadingState', (tester) async {
     when(() => mockTicketsCubit.state).thenReturn(TicketLoadingState());
 
-    await tester.pumpWidget(makeTestableWidget());
+    await tester.pumpWidget(createWidgetUnderTest());
 
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
 
-  testWidgets('should display "Nenhum ticket encontrado" when state is TicketEmptyState', (tester) async {
+  testWidgets('deve exibir a mensagem de vazio quando o estado for TicketEmptyState', (tester) async {
     when(() => mockTicketsCubit.state).thenReturn(TicketEmptyState());
 
-    await tester.pumpWidget(makeTestableWidget());
+    await tester.pumpWidget(createWidgetUnderTest());
 
-    expect(find.text("Nenhum ticket encontrado"), findsOneWidget);
+    expect(find.text('Nenhum ticket encontrado'), findsOneWidget);
   });
 
-  testWidgets('should display list of tickets when state is TicketLoadedState', (tester) async {
-    when(() => mockTicketsCubit.state).thenReturn(TicketLoadedState(tTickets));
+  testWidgets('deve exibir a lista de tickets quando o estado for TicketLoadedState', (tester) async {
+    final tickets = [
+      TicketEntity(
+        id: '1',
+        customerName: 'Cliente Teste',
+        message: 'Mensagem de erro no sistema',
+        status: TicketStatus.open,
+        priority: TicketPriority.high,
+        createdAt: DateTime.now(),
+        category: 'Suporte',
+      ),
+    ];
+    when(() => mockTicketsCubit.state).thenReturn(TicketLoadedState(tickets));
 
-    await tester.pumpWidget(makeTestableWidget());
+    await tester.pumpWidget(createWidgetUnderTest());
 
-    expect(find.byType(ListView), findsOneWidget);
-    expect(find.byType(TicketTile), findsOneWidget);
-    expect(find.text('Customer 1'), findsOneWidget);
+    expect(find.text('Cliente Teste'), findsOneWidget);
+    expect(find.text('Mensagem de erro no sistema'), findsOneWidget);
   });
-
 }

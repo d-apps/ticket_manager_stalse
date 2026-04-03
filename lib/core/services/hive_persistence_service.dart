@@ -18,6 +18,11 @@ class HivePersistenceService implements IPersistenceService {
   }
 
   @override
+  Future<void> delete(String key) async {
+    await box.delete(key);
+  }
+
+  @override
   Future<void> putAll(Map<String, dynamic> entries) async {
     await box.putAll(entries);
   }

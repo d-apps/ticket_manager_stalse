@@ -2,11 +2,11 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:ticket_manager_stalse/core/error/failure.dart';
-import 'package:ticket_manager_stalse/features/tickets/domain/entities/ticket_entity.dart';
-import 'package:ticket_manager_stalse/features/tickets/domain/enums/ticket_priority.dart';
-import 'package:ticket_manager_stalse/features/tickets/domain/enums/ticket_status.dart';
-import 'package:ticket_manager_stalse/features/tickets/domain/repositories/i_ticket_repository.dart';
-import 'package:ticket_manager_stalse/features/tickets/domain/usecases/get_tickets_usecase.dart';
+import 'package:ticket_manager_stalse/features/ticket/tickets/domain/entities/ticket_entity.dart';
+import 'package:ticket_manager_stalse/features/ticket/tickets/domain/enums/ticket_priority.dart';
+import 'package:ticket_manager_stalse/features/ticket/tickets/domain/enums/ticket_status.dart';
+import 'package:ticket_manager_stalse/features/ticket/tickets/domain/repositories/i_ticket_repository.dart';
+import 'package:ticket_manager_stalse/features/ticket/tickets/domain/usecases/get_tickets_usecase.dart';
 
 class MockTicketRepository extends Mock implements ITicketRepository {}
 

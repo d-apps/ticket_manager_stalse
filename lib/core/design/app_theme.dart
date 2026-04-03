@@ -14,6 +14,12 @@ abstract class AppTheme {
         fontWeight: FontWeight.bold,
       ),
     ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Color(0xff005FB8),
+        textStyle: TextStyle(color: Colors.white)
+      )
+    ),
     iconTheme: IconThemeData(
       color: Color(0xff005FB8),
     ),
